@@ -6,8 +6,15 @@ export const config = { runtime: 'edge' } as const;
 
 // Vercel Edge uses the Web Fetch handler signature.
 export default async function handler(request: Request) {
-  // server.fetch expects (request, env, ctx). Vercel doesn't provide env/ctx here,
-  // so pass undefined for them.
-  const response = await server.fetch(request, undefined, undefined);
-  return response;
+  try {
+    // server.fetch expects (request, env, ctx). Vercel doesn't provide env/ctx here,
+    // so pass undefined for them.
+    const response = await server.fetch(request, undefined, undefined);
+    return response;
+  } catch (err) {
+    // Log and return the error stack to help debugging in Vercel logs/response
+    console.error('Edge adapter caught error:', err);
+    const message = err && typeof err === 'object' && 'stack' in err ? String((err as any).stack) : String(err);
+    return new Response(JSON.stringify({ message }), { status: 500, headers: { 'content-type': 'application/json' } });
+  }
 }
