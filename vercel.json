@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/edge.*": {
-      "runtime": "edge"
-    }
-  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/edge" }
   ]
