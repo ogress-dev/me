@@ -1,6 +1,8 @@
 {
   "cleanUrls": true,
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "^/assets/(.*)", "dest": "/dist/client/assets/$1" },
+    { "src": "^/((?:.*\.)?(?:js|css|png|jpg|jpeg|svg|webp|pdf))$", "dest": "/dist/client/$1" },
+    { "src": "/(.*)", "dest": "/dist/client/index.html" }
   ]
 }
